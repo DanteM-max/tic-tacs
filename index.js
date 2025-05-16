@@ -1,4 +1,3 @@
-// Import package for user input
 const prompt = require('prompt-sync')();
 
 /*
@@ -31,10 +30,11 @@ This function can be called after each move to determine if the game has ended.
 */
 let playerOneMove = -1, playerTwoMove = -1; // This makes sure that players One and Two don't have any moves already
 let places = ["","","","","","","","",""]; // This is the tic-tac-toe board
+let isGameOver = false
 for (let i = 0; i < places.length; i++) {
     displayBoard();
     if (i % 2 == 0) {
-        playerOneMove = prompt("What spot do you place an X at, playerOne?");
+        playerOneMove = parseInt(prompt("What spot do you place an X at, playerOne?"));
         if (places[(playerOneMove - 1)] != "x" &&  places[(playerOneMove - 1) ] != "o" && (0 < playerOneMove < 10)) {
             places[(playerOneMove - 1)] = "x";
         } else {
@@ -43,7 +43,7 @@ for (let i = 0; i < places.length; i++) {
         }
         
     } else {
-         playerTwoMove = prompt("What spot do you place an O at, playerTwo?");
+         playerTwoMove = parseInt(prompt("What spot do you place an O at, playerTwo?"));
         if (places[(playerTwoMove - 1)] != "x" &&  places[(playerTwoMove - 1)] != "o" && (0 < playerTwoMove < 10)) {
             places[(playerTwoMove - 1)] = "o";
         } else {
@@ -52,8 +52,9 @@ for (let i = 0; i < places.length; i++) {
         }
     }
     displayBoard();
-    if (isGameOver(0)) {
-        console.log(isGameOver(1));
+    isGameOver = checkGameOver();
+    if (isGameOver) {
+        console.log((winning));
         break
     }
 }
@@ -68,25 +69,38 @@ function displayBoard() {
     console.log("---------------------------");
 }
 
-function isGameOver(index) {
-    let xPositions = "", oPositions = "", winPositions = ["036", "147", "258", "048", "246", "012", "345", "678"]; 
-    // These are all of the winning positions, as well as what these winning positions will be compared to. 
-    for (let position = 0; position < places.length; position++) {
-        if (places[position] == "x") {
-            xPositions = xPositions + position; // Adds the correct number to the string
-            if (xPositions == winPositions) {
-                let finalStandings = [true, "playerOne wins"];
-                return finalStandings[index]; // I use an array here so that I can easily access the data afterwards
-            }
-        } else if (places[position] == "o") {
-            oPositions = oPositions + position;
-            if (oPositions == winPositions) {
-                let finalStandings = [true, "playerTwo wins"]
-                return finalStandings[index]
-        } else {
-            return false
+function checkGameOver() {
+    let win = [3,11,21,9,12,15]
+    console.log(win)
+    let position = 0
+    console.log()
+    let total1 = 0
+    let total2 = 0
+    let i = 0
+    for (let move of places) {
+        position = i
+        if (move == "x") {
+            total1 += position;
+        } else if (move == "o") {
+            total2 += position;
         }
+
+        for (let condition of win) {
+            if (total1 == condition) {
+                let winning = "Player One Wins!!" 
+                return true
+            } else if (total2 == condition) {
+                let winning = "Player Two Wins!!"
+                return true
+            }
         }
     }
-    
 }
+
+/*
+    0 1 2
+    3 4 5
+    6 7 8
+
+    Winning moves are 012, 345, 678, 036, 147, 258, 048, 246
+*/
