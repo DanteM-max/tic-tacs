@@ -30,7 +30,7 @@ This function can be called after each move to determine if the game has ended.
 */
 let playerOneMove = -1, playerTwoMove = -1; // This makes sure that players One and Two don't have any moves already
 let places = ["","","","","","","","",""]; // This is the tic-tac-toe board
-let isGameOver = false
+let isGameOver = false;
 for (let i = 0; i < places.length; i++) {
     displayBoard();
     if (i % 2 == 0) {
@@ -38,8 +38,8 @@ for (let i = 0; i < places.length; i++) {
         if (places[(playerOneMove - 1)] != "x" &&  places[(playerOneMove - 1) ] != "o" && (0 < playerOneMove < 10)) {
             places[(playerOneMove - 1)] = "x";
         } else {
-            console.log("Unwarranted move. Seems like this position is not available. ")
-            i--
+            console.log("Unwarranted move. Seems like this position is not available. ");
+            i--;
         }
         
     } else {
@@ -47,60 +47,146 @@ for (let i = 0; i < places.length; i++) {
         if (places[(playerTwoMove - 1)] != "x" &&  places[(playerTwoMove - 1)] != "o" && (0 < playerTwoMove < 10)) {
             places[(playerTwoMove - 1)] = "o";
         } else {
-            console.log("Unwarranted move. Seems like this position is not available. ")
-            i--
+            console.log("Unwarranted move. Seems like this position is not available. ");
+            i--;
         }
     }
     displayBoard();
-    isGameOver = checkGameOver();
+    isGameOver = checkGameOverAlt("x") || checkGameOverAlt("o");
     if (isGameOver) {
-        console.log((winning));
-        break
+        break;
     }
 }
 
 function displayBoard() {
-    let col1 = [places[0], places[1], places[2]], col2 = [places[3], places[4], places[5]], col3 = [places[6], places[7], places[8]];
+    let row1 = [places[0], places[1], places[2]], row2 = [places[3], places[4], places[5]], row3 = [places[6], places[7], places[8]];
     // It just looks cool
     console.log("---------------------------");
-    console.log(col1);
-    console.log(col2);
-    console.log(col3);
+    console.log(row1);
+    console.log(row2);
+    console.log(row3);
     console.log("---------------------------");
 }
 
 function checkGameOver() {
-    let win = [3,11,21,9,12,15]
-    console.log(win)
-    let position = 0
-    console.log()
-    let total1 = 0
-    let total2 = 0
-    let i = 0
+    let win = [2,12,21,8,15,11]
+    console.log(win);
+    let position = 0;
+    console.log("First position is " + position);
+    let total1 = 0;
+    let total2 = 0;
+    let i = 0;
     for (let move of places) {
-        position = i
+        position = i;
+        console.log("Position equals " + position);
         if (move == "x") {
-            total1 += position;
+            if (position == 0) {
+                total1--;
+            } else {
+                total1 += position;
+            }
+            
+            console.log("Player one has a total of " + total1);
         } else if (move == "o") {
-            total2 += position;
+            if (position == 0) {
+                total2--;
+            } else {
+                total2 += position;
+            }
+            
+            console.log("Player two has a total of " + total2);
         }
 
         for (let condition of win) {
             if (total1 == condition) {
-                let winning = "Player One Wins!!" 
+                let winning = "Player One Wins!!" ;
+                console.log("Player 1 win");
                 return true
             } else if (total2 == condition) {
-                let winning = "Player Two Wins!!"
+                let winning = "Player Two Wins!!";
+                console.log("Player 2 win");
                 return true
             }
         }
+        i++;
     }
 }
 
+function checkGameOverAlt(player) {
+    let row1 = [places[0], places[1], places[2]], row2 = [places[3], places[4], places[5]], row3 = [places[6], places[7], places[8]];
+    let col1 = [places[0], places[3], places[6]], col2 = [places[1], places[4], places[7]], col3 = [places[2], places[5], places[8]];
+    let diag1 = [places[0], places[4], places[8]], diag2 = [places[2], places[4], places[8]]
+    let rowCheck = player + player + player;
+    let rowString = "";
+    // Check each row 
+    for (let move of row1) {
+        if (move == player) {
+            rowString = rowString + player;
+        }
+    }
+    if (rowString == rowCheck) {
+        console.log(player + " WINS!!!!!!")
+        return true
+    }
+    rowString = "";
+    for (let move of row2) {
+        if (move == player) {
+            rowString = rowString + player;
+        }
+    }
+    if (rowString == rowCheck) {
+        console.log(player + " WINS!!!!!!")
+        return true
+    }
+    rowString = "";
+    for (let move of row3) {
+        if (move == player) {
+            rowString = rowString + player;
+        }
+    }
+    if (rowString == rowCheck) {
+        console.log(player + " WINS!!!!!!")
+        return true
+    }
+    // Check each col
+    colCheck = player + player + player;
+    colString = "";
+    for (let move of col1) {
+        if (move == player) {
+            colString = colString + player;
+        }
+        if (colString == colCheck) {
+            console.log(player + " WINS!!!!")
+        }
+    }
+    colString = "";
+    for (let move of col2) {
+        if (move == player) {
+            colString = colString + player;
+        }
+        if (colString == colCheck) {
+            console.log(player + " WINS!!!!")
+        }
+    }
+    colString = "";
+    for (let move of col3) {
+        if (move == player) {
+            colString = colString + player;
+        }
+        if (colString == colCheck) {
+            console.log(player + " WINS!!!!")
+        }
+    }
+    // Check each diag
+
+    // Check if all places have been used
+}
+
 /*
-    0 1 2
+    -1 1 2
     3 4 5
     6 7 8
 
-    Winning moves are 012, 345, 678, 036, 147, 258, 048, 246
+    Winning moves are 2,12,21,8,12,15,11,12
 */
+
