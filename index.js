@@ -29,23 +29,27 @@ Suggestion: Create a function called checkGameOver() to encapsulate the logic fo
 This function can be called after each move to determine if the game has ended.
 */
 let playerOneMove = -1, playerTwoMove = -1; // This makes sure that players One and Two don't have any moves already
-let places = ["","","","","","","","",""]; // This is the tic-tac-toe board
+let places = ['-','-','-','-','-','-','-','-','-']; // This is the tic-tac-toe board
 let isGameOver = false;
+console.log("The board is arranged as follows:")
+console.log([1,2,3])
+console.log([4,5,6])
+console.log([7,8,9])
 for (let i = 0; i < places.length; i++) {
     displayBoard();
     if (i % 2 == 0) {
-        playerOneMove = parseInt(prompt("What spot do you place an X at, playerOne?"));
-        if (places[(playerOneMove - 1)] != "x" &&  places[(playerOneMove - 1) ] != "o" && (0 < playerOneMove < 10)) {
-            places[(playerOneMove - 1)] = "x";
+        playerOneMove = parseInt(prompt("What spot do you place an X at, playerOne? "));
+        if (places[(playerOneMove - 1)] != 'x' &&  places[(playerOneMove - 1) ] != 'o' && (0 < playerOneMove < 10)) {
+            places[(playerOneMove - 1)] = 'x';
         } else {
             console.log("Unwarranted move. Seems like this position is not available. ");
             i--;
         }
         
     } else {
-         playerTwoMove = parseInt(prompt("What spot do you place an O at, playerTwo?"));
-        if (places[(playerTwoMove - 1)] != "x" &&  places[(playerTwoMove - 1)] != "o" && (0 < playerTwoMove < 10)) {
-            places[(playerTwoMove - 1)] = "o";
+         playerTwoMove = parseInt(prompt("What spot do you place an O at, playerTwo? "));
+        if (places[(playerTwoMove - 1)] != 'x' &&  places[(playerTwoMove - 1)] != 'o' && (0 < playerTwoMove < 10)) {
+            places[(playerTwoMove - 1)] = 'o';
         } else {
             console.log("Unwarranted move. Seems like this position is not available. ");
             i--;
@@ -62,9 +66,11 @@ function displayBoard() {
     let row1 = [places[0], places[1], places[2]], row2 = [places[3], places[4], places[5]], row3 = [places[6], places[7], places[8]];
     // It just looks cool
     console.log("---------------------------");
-    console.log(row1);
-    console.log(row2);
-    console.log(row3);
+    console.log(row1[0] + "|" + row1[1] + "|" + row1[2]);
+    console.log("-----")
+    console.log(row2[0] + "|" + row2[1] + "|" + row2[2]);
+    console.log("-----")
+    console.log(row3[0] + "|" + row3[1] + "|" + row3[2]);
     console.log("---------------------------");
 }
 
@@ -105,8 +111,8 @@ function checkGameOver(player) {
         return true
     }
     // Check each col
-    colCheck = player + player + player;
-    colString = "";
+    let colCheck = player + player + player;
+    let colString = "";
     for (let move of col1) {
         if (move == player) {
             colString = colString + player;
@@ -161,7 +167,7 @@ function checkGameOver(player) {
     }
     // Check if all places have been used
     
-    if (!places.includes("")) {
+    if (!places.includes('-')) {
         console.log("Hmm... Seems like this is a draw...")
         return true
     }
@@ -175,3 +181,4 @@ function checkGameOver(player) {
     Winning moves are 2,12,21,8,12,15,11,12
 */
 
+//add a space after the question mark for each player question
