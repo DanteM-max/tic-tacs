@@ -52,7 +52,7 @@ for (let i = 0; i < places.length; i++) {
         }
     }
     displayBoard();
-    isGameOver = checkGameOverAlt("x") || checkGameOverAlt("o");
+    isGameOver = checkGameOver("x") || checkGameOver("o");
     if (isGameOver) {
         break;
     }
@@ -68,54 +68,10 @@ function displayBoard() {
     console.log("---------------------------");
 }
 
-function checkGameOver() {
-    let win = [2,12,21,8,15,11]
-    console.log(win);
-    let position = 0;
-    console.log("First position is " + position);
-    let total1 = 0;
-    let total2 = 0;
-    let i = 0;
-    for (let move of places) {
-        position = i;
-        console.log("Position equals " + position);
-        if (move == "x") {
-            if (position == 0) {
-                total1--;
-            } else {
-                total1 += position;
-            }
-            
-            console.log("Player one has a total of " + total1);
-        } else if (move == "o") {
-            if (position == 0) {
-                total2--;
-            } else {
-                total2 += position;
-            }
-            
-            console.log("Player two has a total of " + total2);
-        }
-
-        for (let condition of win) {
-            if (total1 == condition) {
-                let winning = "Player One Wins!!" ;
-                console.log("Player 1 win");
-                return true
-            } else if (total2 == condition) {
-                let winning = "Player Two Wins!!";
-                console.log("Player 2 win");
-                return true
-            }
-        }
-        i++;
-    }
-}
-
-function checkGameOverAlt(player) {
+function checkGameOver(player) {
     let row1 = [places[0], places[1], places[2]], row2 = [places[3], places[4], places[5]], row3 = [places[6], places[7], places[8]];
     let col1 = [places[0], places[3], places[6]], col2 = [places[1], places[4], places[7]], col3 = [places[2], places[5], places[8]];
-    let diag1 = [places[0], places[4], places[8]], diag2 = [places[2], places[4], places[8]]
+    let diag1 = [places[0], places[4], places[8]], diag2 = [places[2], places[4], places[6]]
     let rowCheck = player + player + player;
     let rowString = "";
     // Check each row 
@@ -157,6 +113,7 @@ function checkGameOverAlt(player) {
         }
         if (colString == colCheck) {
             console.log(player + " WINS!!!!")
+            return true
         }
     }
     colString = "";
@@ -166,6 +123,7 @@ function checkGameOverAlt(player) {
         }
         if (colString == colCheck) {
             console.log(player + " WINS!!!!")
+            return true
         }
     }
     colString = "";
@@ -175,11 +133,38 @@ function checkGameOverAlt(player) {
         }
         if (colString == colCheck) {
             console.log(player + " WINS!!!!")
+            return true
         }
     }
     // Check each diag
+    let diagCheck = player + player + player;
+    diagString = "";
+    for (let move of diag1) {
+        if (move == player) {
+            diagString = diagString + player;
+        }
+        if (diagString == diagCheck) {
+            console.log(player + " WINS!!!!")
+            return true
+        }
+    }
 
+    diagString = "";
+    for (let move of diag2) {
+        if (move == player) {
+            diagString = diagString + player;
+        }
+        if (diagString == diagCheck) {
+            console.log(player + " WINS!!!!")
+            return true
+        }
+    }
     // Check if all places have been used
+    
+    if (!places.includes("")) {
+        console.log("Hmm... Seems like this is a draw...")
+        return true
+    }
 }
 
 /*
